@@ -16,18 +16,28 @@
       <div class="container">
         <h1 class="title">Video Downloader</h1>
         <input class="input" type="text"></input>
-        <button class="button is-primary  ">Submit</button>
+        <button class="button is-primary" onclick="doThing()">Submit</button>
       </div>
     </section>
     <script type="text/javascript">
       languagePluginLoader.then(function() {
-        console.log(pyodide.runPython(
-          `
-          import sys
-          sys.platform
-          `
-        ))
+        console.log("Ready!");
       });
+      
+      function doThing(){
+        pyodide.runPythonAsync(
+          `
+          from js import Blob, document
+          from js import window
+            
+          txt = "This copy pasted code from stackoverflow better work"
+              
+          blob = Blob.new([txt], {type : 'application/text'})
+          url = window.URL.createObjectURL(blob) 
+          window.location.assign(url)
+          `
+        );
+      }
     </script>
   </body>
 </html>
